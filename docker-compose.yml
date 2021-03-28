@@ -1,0 +1,21 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment: 
+      POSTGRES_PASSWORD: postgres_test_radix!
+      POSTGRES_DB: events_db
+    ports:
+      - "15432:5432"
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment: 
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+# networks: 
+#   project-network:
+#     driver: bridge
