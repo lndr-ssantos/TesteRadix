@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Events.API.Models.Entities
 {
@@ -20,7 +17,7 @@ namespace Events.API.Models.Entities
             Tag = tag;
             EventDate = eventDate;
             Value = value;
-            Processed = string.IsNullOrWhiteSpace(Value);
+            Processed = !string.IsNullOrWhiteSpace(Value);
         }
 
         public void IsProcessed()

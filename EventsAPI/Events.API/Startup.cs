@@ -26,8 +26,11 @@ namespace Events.API
         {
             services.AddControllers().AddNewtonsoftJson();
 
-            //services.AddDbContext<EventsDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Database")));
-            services.AddDbContext<EventsDbContext>(options => options.UseInMemoryDatabase("db_test"));
+            services.AddDbContext<EventsDbContext>(options => 
+                options.UseNpgsql(Configuration.GetConnectionString("Database"), config => 
+                {
+                    config.MigrationsHistoryTable(tableName: "__Migrations");
+                }));
 
             services.Configure<RabbitMqOptions>(Configuration.GetSection("RabbitMq"));
 

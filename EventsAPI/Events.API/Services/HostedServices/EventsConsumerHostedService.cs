@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,25 +16,25 @@ namespace Events.API.Services.HostedServices
     public class EventsConsumerHostedService : BackgroundService
     {
         private readonly RabbitMqOptions _rabbitMqOptions;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private IModel _channel;
 
-        public EventsConsumerHostedService(IOptions<RabbitMqOptions> rabbitMqOptions, IServiceProvider serviceProvider)
+        public EventsConsumerHostedService(IOptions<RabbitMqOptions> rabbitMqOptions, IServiceScopeFactory serviceScopeFactory)
         {
             _rabbitMqOptions = rabbitMqOptions.Value;
-            _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
 
             InitializeRabbitMq();
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            using var serviceScope = _serviceScopeFactory.CreateScope();
+            var eventServices = serviceScope.ServiceProvider.GetRequiredService<IEventServices>();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1000, stoppingToken);
-
-                using var serviceScope = _serviceProvider.CreateScope();
-                var eventServices = serviceScope.ServiceProvider.GetRequiredService<IEventServices>();
+                Task.Delay(1000, stoppingToken);
 
                 var consumer = new EventingBasicConsumer(_channel);
 
@@ -49,6 +48,8 @@ namespace Events.API.Services.HostedServices
 
                 _channel.BasicConsume(queue: _rabbitMqOptions.QueueName, autoAck: true, consumer: consumer);
             }
+
+            return Task.CompletedTask;
         }
 
         private void InitializeRabbitMq()
