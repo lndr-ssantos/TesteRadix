@@ -1,4 +1,5 @@
-﻿using Events.API.Models.Entities;
+﻿using Events.API.Infra.Concurrency;
+using Events.API.Models.Entities;
 using Events.API.Models.ViewModels;
 using Events.API.Services.Repositories.EventsRepository;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Events.API.Services.EventsServices
     public class EventServices : IEventServices
     {
         private readonly IEventRepository _eventsRepository;
+        private static readonly AsyncLock _asyncLock = new AsyncLock();
 
         public EventServices(IEventRepository eventsRepository)
         {
@@ -18,11 +20,14 @@ namespace Events.API.Services.EventsServices
 
         public async Task ProcessEvents(EventViewModel eventViewModel)
         {
-            var @event = eventViewModel.MapToEvent();
+            using (await _asyncLock.LockAsync())
+            {
+                var @event = eventViewModel.MapToEvent();
 
-            await _eventsRepository.AddEventAsync(@event);
+                await _eventsRepository.AddEventAsync(@event);
 
-            await _eventsRepository.SaveAsync();
+                await _eventsRepository.SaveAsync();
+            }
         }
 
         public async Task<List<Event>> List()

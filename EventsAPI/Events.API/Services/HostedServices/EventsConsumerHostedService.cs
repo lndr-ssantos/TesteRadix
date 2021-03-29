@@ -27,14 +27,14 @@ namespace Events.API.Services.HostedServices
             InitializeRabbitMq();
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var serviceScope = _serviceScopeFactory.CreateScope();
             var eventServices = serviceScope.ServiceProvider.GetRequiredService<IEventServices>();
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                Task.Delay(1000, stoppingToken);
+                await Task.Delay(1000, stoppingToken);
 
                 var consumer = new EventingBasicConsumer(_channel);
 
@@ -48,8 +48,6 @@ namespace Events.API.Services.HostedServices
 
                 _channel.BasicConsume(queue: _rabbitMqOptions.QueueName, autoAck: true, consumer: consumer);
             }
-
-            return Task.CompletedTask;
         }
 
         private void InitializeRabbitMq()
