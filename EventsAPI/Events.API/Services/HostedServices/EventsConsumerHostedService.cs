@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,10 +41,18 @@ namespace Events.API.Services.HostedServices
 
                 consumer.Received += async (ch, ea) =>
                 {
-                    var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                    var eventViewModel = JsonConvert.DeserializeObject<EventViewModel>(content);
+                    try
+                    {
+                        var content = Encoding.UTF8.GetString(ea.Body.ToArray());
+                        var eventViewModel = JsonConvert.DeserializeObject<EventViewModel>(content);
 
-                    await eventServices.ProcessEvents(eventViewModel);
+                        await eventServices.ProcessEvents(eventViewModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        //Em um projeto de verdade eu teria uma solução real para log
+                        Console.WriteLine($"Mensagem inválida recebida.\n\nExceção: {ex.Message}");
+                    }
                 };
 
                 _channel.BasicConsume(queue: _rabbitMqOptions.QueueName, autoAck: true, consumer: consumer);
