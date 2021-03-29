@@ -7,4 +7,11 @@ export default class EventsApi {
 
         return response.data;
     }
+
+    async getEventsProcessed() {
+        var url = 'http://localhost:52831/api/events/processed';
+        var response = await axios.get(url);
+
+        return response.data;
+    }
 }

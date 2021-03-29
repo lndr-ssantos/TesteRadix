@@ -1,34 +1,38 @@
 <template>
   <div>
-    <p>aqui graficos</p>
+    <div class="row mt-5">
+      <div class="col">
+        <bar-chart v-if="eventsProcessed != null" :label="'Eventos Processados'" :chartData="eventsProcessed"></bar-chart>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import EventsApi from "@/services/EventsApi"
+import BarChart from './BarChart.vue'
 
 export default {
+  components: { BarChart },
   name: 'Chart',
   data() {
     return {
-      
+      eventsProcessed: null,
     }
   }, 
   methods: {
-    async getEvents() {
+    async getEventsProcessedByTag() {
       var eventsApi = new EventsApi();
-      var events = await eventsApi.getEvents();
-      this.eventsList = events.events;
 
-      console.log(this.eventsList);
-    },
-    formatProcessedValue(value) {
-      return value ? 'Sim' : 'Não'
+      var events = await eventsApi.getEventsProcessed();
+      this.eventsProcessed = events.eventsProcessed;
+
+      console.log(this.eventsProcessed)
     }
-  }//,
-//   async mounted() {
-//     await this.getEvents();
-//   }
+  },
+  async mounted() {
+    await this.getEventsProcessedByTag();
+  }
 }
 </script>
 

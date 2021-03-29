@@ -9,6 +9,6 @@ namespace Events.API.Services.EventsServices
     {
         Task ProcessEvents(EventViewModel eventViewModel);
         Task<List<Event>> List();
-
+        Task<List<Event>> ListProcessed();
     }
 }

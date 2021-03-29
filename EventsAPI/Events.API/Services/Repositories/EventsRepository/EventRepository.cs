@@ -2,6 +2,7 @@
 using Events.API.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Events.API.Services.Repositories.EventsRepository
@@ -23,6 +24,11 @@ namespace Events.API.Services.Repositories.EventsRepository
         public async Task<IEnumerable<Event>> List()
         {
             return await _dbContext.Events.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Event>> ListProcessed()
+        {
+            return await _dbContext.Events.Where(e => e.Processed).ToListAsync();
         }
 
         public async Task SaveAsync()

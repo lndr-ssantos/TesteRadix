@@ -24,5 +24,13 @@ namespace Events.API.Controllers
 
             return new EventListResult(events.ToList());
         }
+
+        [HttpGet("processed")]
+        public async Task<IActionResult> GetEventsBySensor()
+        {
+            var events = await _eventServices.ListProcessed();
+
+            return new EventsProcessedListResult(events.ToList());
+        }
     }
 }

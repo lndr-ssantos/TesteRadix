@@ -30,5 +30,11 @@ namespace Events.API.Services.EventsServices
             var events = await _eventsRepository.List();
             return events.ToList();
         }
+
+        public async Task<List<Event>> ListProcessed()
+        {
+            var events = await _eventsRepository.ListProcessed();
+            return events.ToList();
+        }
     }
 }

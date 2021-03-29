@@ -8,6 +8,7 @@ namespace Events.API.Services.Repositories.EventsRepository
     {
         Task AddEventAsync(Event @event);
         Task<IEnumerable<Event>> List();
+        Task<IEnumerable<Event>> ListProcessed();
         Task SaveAsync();
     }
 }

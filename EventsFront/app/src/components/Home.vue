@@ -38,8 +38,6 @@ export default {
       var eventsApi = new EventsApi();
       var events = await eventsApi.getEvents();
       this.eventsList = events.events;
-
-      console.log(this.eventsList);
     },
     formatProcessedValue(value) {
       return value ? 'Sim' : 'Não'
