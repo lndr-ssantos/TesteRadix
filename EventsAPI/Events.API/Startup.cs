@@ -63,6 +63,12 @@ namespace Events.API
 
             app.UseAuthorization();
 
+            app.UseCors(policy => policy
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

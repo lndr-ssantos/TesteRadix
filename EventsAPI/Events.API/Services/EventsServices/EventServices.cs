@@ -1,5 +1,8 @@
-﻿using Events.API.Models.ViewModels;
+﻿using Events.API.Models.Entities;
+using Events.API.Models.ViewModels;
 using Events.API.Services.Repositories.EventsRepository;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Events.API.Services.EventsServices
@@ -12,7 +15,7 @@ namespace Events.API.Services.EventsServices
         {
             _eventsRepository = eventsRepository;
         }
-        
+
         public async Task ProcessEvents(EventViewModel eventViewModel)
         {
             var @event = eventViewModel.MapToEvent();
@@ -20,6 +23,12 @@ namespace Events.API.Services.EventsServices
             await _eventsRepository.AddEventAsync(@event);
 
             await _eventsRepository.SaveAsync();
+        }
+
+        public async Task<List<Event>> List()
+        {
+            var events = await _eventsRepository.List();
+            return events.ToList();
         }
     }
 }
