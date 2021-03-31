@@ -1,21 +1,51 @@
 version: '3'
 services:
-  postgresql:
+  postgres:
     image: postgres:latest
+    hostname: postgres
     restart: always
     environment: 
       POSTGRES_PASSWORD: postgres_test_radix!
       POSTGRES_DB: events_db
     ports:
       - "15432:5432"
+  
   rabbitmq:
     image: rabbitmq:3-management
+    hostname: rabbitmq
     environment: 
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
+    container_name: rabbitmq
     ports:
-    - "5672:5672"
-    - "15672:15672"
-# networks: 
-#   project-network:
-#     driver: bridge
+      - "5672:5672"
+      - "15672:15672"
+
+  events-api:
+    build: 
+      context: ./EventsAPI
+      dockerfile: Dockerfile
+    hostname: events-api
+    restart: on-failure
+    depends_on: 
+      - postgres
+      - rabbitmq
+    environment: 
+      ASPNETCORE_ENVIRONMENT: Production
+    ports: 
+      - "5000:5000"
+      - "5001:5001"
+
+  events-front:
+    build:
+      context: ./EventsFront/app
+      dockerfile: Dockerfile
+    hostname: events-front
+    environment: 
+      VUE_APP_EVENTS_API_URL: events-api:5000
+    depends_on: 
+      - events-api
+      - postgres
+      - rabbitmq
+    ports: 
+      - "8080:80"

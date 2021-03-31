@@ -11,7 +11,8 @@ export default {
   name: 'Home',
   data() {
     return {
-      eventsList: null,
+      eventsList: [],
+      timer: null,
       tableFields: [
         {
           key: 'tag',
@@ -41,10 +42,14 @@ export default {
     },
     formatProcessedValue(value) {
       return value ? 'Sim' : 'Não'
+    },
+    async updateList() {
+      await new Promise(resolve => setInterval(() => resolve(this.getEvents()), 1000))
     }
   },
   async mounted() {
     await this.getEvents();
+    this.timer = await this.updateList();
   }
 }
 </script>

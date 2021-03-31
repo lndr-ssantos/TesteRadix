@@ -14,7 +14,7 @@ namespace Events.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
         }
@@ -49,13 +49,14 @@ namespace Events.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EventsAPI v1");
-                    c.RoutePrefix = "documentation";
-                });
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EventsAPI v1");
+                c.RoutePrefix = "documentation";
+            });
 
             app.UseHttpsRedirection();
 
