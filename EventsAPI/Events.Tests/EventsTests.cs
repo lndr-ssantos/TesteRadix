@@ -22,7 +22,7 @@ namespace Events.Tests
             {
                 Tag = "tag",
                 TimeStamp = 15618486,
-                Valor = "valor teste"
+                Valor = "12345"
             };
 
             await eventServices.ProcessEvents(eventViewModel);
