@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Events.API.Models.Entities
 {
@@ -17,12 +18,11 @@ namespace Events.API.Models.Entities
             Tag = tag;
             EventDate = eventDate;
             Value = value;
-            Processed = !string.IsNullOrWhiteSpace(Value);
         }
 
         public void IsProcessed()
         {
-            Processed = string.IsNullOrWhiteSpace(Value);
+            Processed = !string.IsNullOrWhiteSpace(Value) && Regex.IsMatch(Value, @"^[0-9]+$");
         }
     }
 }

@@ -12,8 +12,11 @@ namespace Events.API.Models.ViewModels
         public Event MapToEvent()
         {
             var eventDate = DateTimeOffset.FromUnixTimeMilliseconds(TimeStamp).DateTime.ToLocalTime();
+            
+            var @event = new Event(tag: Tag, eventDate: eventDate, value: Valor);
+            @event.IsProcessed();
 
-            return new Event(tag: Tag, eventDate: eventDate, value: Valor);
+            return @event;
         }
     }
 }
