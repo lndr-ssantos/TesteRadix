@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Events.API.Models.Results
 {
-    public class EventsProcessedListResult : IActionResult
+    public class EventsProcessedListJsonResult : IActionResult
     {
-        public ICollection<EventProcessedResult> EventsProcessed { get; set; }
+        public ICollection<EventProcessedJsonResult> EventsProcessed { get; set; }
 
-        public EventsProcessedListResult() { }
+        public EventsProcessedListJsonResult() { }
 
-        public EventsProcessedListResult(ICollection<Event> events)
+        public EventsProcessedListJsonResult(ICollection<Event> events)
         {
-            EventsProcessed = new List<EventProcessedResult>();
+            EventsProcessed = new List<EventProcessedJsonResult>();
 
             var eventsByTag = events.GroupBy(e => e.Tag);
 
             foreach (var item in eventsByTag)
             {
-                EventsProcessed.Add(new EventProcessedResult(tag: item.Key, count: item.Count()));
+                EventsProcessed.Add(new EventProcessedJsonResult(tag: item.Key, count: item.Count()));
             }
         }
 

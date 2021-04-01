@@ -1,6 +1,20 @@
 <template>
   <div>
-    <b-table striped :items="eventsList" :fields="tableFields"></b-table>
+    <div v-if="eventsByRegionList.length > 0" class="container">
+      <ul class="list-group">
+        <li class="list-group-item" v-for="region in eventsByRegionList" :key="region.region">
+          {{ region.region }} - {{ region.total }}
+          <ul class="list-group">
+            <li class="list-group-item" v-for="sensor in region.sensors" :key="sensor[0]" >
+              {{ sensor.name }} - {{ sensor.total }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <p>Não há eventos na base de dados</p>
+    </div>
   </div>
 </template>
 
@@ -11,45 +25,18 @@ export default {
   name: 'Home',
   data() {
     return {
-      eventsList: [],
-      timer: null,
-      tableFields: [
-        {
-          key: 'tag',
-          label: 'Tag'
-        },
-        {
-          key: 'date',
-          label: 'Data do evento'
-        }, 
-        {
-          key: 'value',
-          label: 'Valor'
-        },
-        {
-          key: 'processed',
-          label:'Processado com sucesso',
-          formatter: 'formatProcessedValue'
-        }
-      ]
+      eventsByRegionList: [],
     }
   }, 
   methods: {
     async getEvents() {
       var eventsApi = new EventsApi();
-      var events = await eventsApi.getEvents();
-      this.eventsList = events.events;
-    },
-    formatProcessedValue(value) {
-      return value ? 'Sim' : 'Não'
-    },
-    async updateList() {
-      await new Promise(resolve => setInterval(() => resolve(this.getEvents()), 1000))
+      var eventsByRegion = await eventsApi.getEventsByRegion();
+      this.eventsByRegionList = eventsByRegion.regionsSummaries;
     }
   },
   async mounted() {
     await this.getEvents();
-    this.timer = await this.updateList();
   }
 }
 </script>

@@ -4,6 +4,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueRouter from 'vue-router'
 
 import Home from './components/Home.vue';
+import EventsTable from './components/EventsTable.vue';
 import Chart from './components/Chart.vue';
 
 Vue.config.productionTip = false
@@ -20,6 +21,10 @@ const router = new VueRouter({
     {
       path: '/',
       component: Home
+    },
+    {
+      path: '/tabela',
+      component: EventsTable
     },
     {
       path: '/grafico',

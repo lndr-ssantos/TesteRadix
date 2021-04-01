@@ -7,6 +7,12 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+          <router-link to="/"><b-nav-item href="/grafico">Contador por região</b-nav-item></router-link>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <router-link to="/tabela"><b-nav-item href="/grafico">Tabela de eventos</b-nav-item></router-link>
+        </b-navbar-nav>
+        <b-navbar-nav>
           <router-link to="/grafico"><b-nav-item href="/grafico">Gráfico de eventos</b-nav-item></router-link>
         </b-navbar-nav>
       </b-collapse>

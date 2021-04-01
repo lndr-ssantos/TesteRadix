@@ -14,4 +14,11 @@ export default class EventsApi {
 
         return response.data;
     }
+
+    async getEventsByRegion() {
+        var url = 'http://localhost:5000/api/events/by-region';
+        var response = await axios.get(url);
+
+        return response.data;
+    }
 }

@@ -1,9 +1,11 @@
 <script>
-import { Bar } from 'vue-chartjs'
+import { Bar, mixins  } from 'vue-chartjs'
+const { reactiveProp } = mixins
 
 export default {
   name: 'BarChart',
   extends: Bar,
+  mixins: [reactiveProp],
   props: {
     label: {
       type: String
@@ -13,19 +15,16 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.chartData)
     var tags = this.chartData.map(e => e.tag);
-    var counters = this.chartData.map(e => e.count)
-
-    console.log(tags, counters);
+    var totals = this.chartData.map(e => e.count)
 
     var chartData = {
       labels: tags,
       datasets: [
-      {
-        label: 'Eventos Processados',
-        data: counters,
-        backgroundColor: '#f87979'
+        {
+          label: 'Eventos Processados',
+          data: totals,
+          backgroundColor: '#f87979'
         }
       ]
     }

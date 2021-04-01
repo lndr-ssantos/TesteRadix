@@ -1,4 +1,5 @@
 ﻿using Events.API.Models.Results;
+using Events.API.Models.Results.JsonResults;
 using Events.API.Services.EventsServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Events.API.Controllers
         {
             var events = await _eventServices.List();
 
-            return new EventListResult(events.ToList());
+            return new EventListJsonResult(events.ToList());
         }
 
         [HttpGet("processed")]
@@ -30,7 +31,15 @@ namespace Events.API.Controllers
         {
             var events = await _eventServices.ListProcessed();
 
-            return new EventsProcessedListResult(events.ToList());
+            return new EventsProcessedListJsonResult(events.ToList());
+        }
+
+        [HttpGet("by-region")]
+        public async Task<IActionResult> GetEventsByRegion()
+        {
+            var summaries = await _eventServices.ListByRegion();
+
+            return new RegionSummaryListJsonResult(summaries);
         }
     }
 }

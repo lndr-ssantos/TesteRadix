@@ -3,16 +3,16 @@ using System;
 
 namespace Events.API.Models.Results
 {
-    public class EventResult
+    public class EventJsonResult
     {
         public string Tag { get; set; }
         public DateTime Date { get; set; }
         public string Value { get; set; }
         public bool Processed { get; set; }
 
-        public EventResult() { }
+        public EventJsonResult() { }
 
-        public EventResult(Event e)
+        public EventJsonResult(Event e)
         {
             Tag = e.Tag;
             Date = e.EventDate;

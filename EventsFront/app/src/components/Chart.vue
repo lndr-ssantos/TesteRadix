@@ -26,8 +26,6 @@ export default {
 
       var events = await eventsApi.getEventsProcessed();
       this.eventsProcessed = events.eventsProcessed;
-
-      console.log(this.eventsProcessed)
     }
   },
   async mounted() {

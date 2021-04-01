@@ -5,17 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Events.API.Models.Results
+namespace Events.API.Models.Results.JsonResults
 {
-    public class EventListResult : IActionResult
+    public class EventListJsonResult : IActionResult
     {
-        public ICollection<EventResult> Events { get; set; }
+        public ICollection<EventJsonResult> Events { get; set; }
 
-        public EventListResult() { }
+        public EventListJsonResult() { }
 
-        public EventListResult(ICollection<Event> events)
+        public EventListJsonResult(ICollection<Event> events)
         {
-            Events = events.Select(e => new EventResult(e)).ToList();
+            Events = events.Select(e => new EventJsonResult(e)).ToList();
         }
 
         public async Task ExecuteResultAsync(ActionContext context)

@@ -1,13 +1,13 @@
 ﻿namespace Events.API.Models.Results
 {
-    public class EventProcessedResult
+    public class EventProcessedJsonResult
     {
         public string Tag { get; set; }
         public int Count { get; set; }
 
-        public EventProcessedResult() { }
+        public EventProcessedJsonResult() { }
 
-        public EventProcessedResult(string tag, int count)
+        public EventProcessedJsonResult(string tag, int count)
         {
             Tag = tag;
             Count = count;
