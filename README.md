@@ -36,7 +36,7 @@ Para visualizar os eventos processados pela API acesse a aplicação web.
 * Configurar a tela do gráfico para atualizar sozinho;
 * Adicionar um middleware na aplicação para capturar qualquer exceção e logar corretamente;
 * Ajustar a impressão da data do evento na tabela no front;
-* Corrigir bug ao tentar exibir quatro sensores no gráfico, por algum motivo quando existem 4 sensores na exibição do gráfico apenas uma barra é gerada
+* Corrigir bug ao tentar exibir quatro sensores no gráfico, por algum motivo quando existem 4 sensores a exibição do gráfico fica inconsistente.
 
 ## Requerimentos
 
