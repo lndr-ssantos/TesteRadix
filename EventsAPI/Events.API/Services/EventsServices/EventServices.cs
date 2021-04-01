@@ -2,6 +2,7 @@
 using Events.API.Models.Entities;
 using Events.API.Models.ViewModels;
 using Events.API.Services.Repositories.EventsRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Events.API.Services.EventsServices
             using (await _asyncLock.LockAsync())
             {
                 var @event = eventViewModel.MapToEvent();
+
+                if (!@event.TagIsValid())
+                {
+                    throw new ArgumentException($"Tag inválida.\n\nTag recebida: {@event.Tag}");
+                }
 
                 await _eventsRepository.AddEventAsync(@event);
 

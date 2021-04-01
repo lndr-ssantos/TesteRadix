@@ -24,5 +24,10 @@ namespace Events.API.Models.Entities
         {
             Processed = !string.IsNullOrWhiteSpace(Value) && Regex.IsMatch(Value, @"^[0-9]+$");
         }
+
+        public bool TagIsValid()
+        {
+            return Regex.IsMatch(Tag, @"^[A-Za-z]+.[A-Za-z]+.[A-Za-z]+[0-9]+$");
+        }
     }
 }
